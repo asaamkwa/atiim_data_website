@@ -1,0 +1,22 @@
+{
+  "name": "atiim_website",
+  "version": "1.0.0",
+  "description": "Data Website",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "Louis Akaabadek",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.4",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.2.3",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "mongoose": "^9.1.5",
+    "uuid": "^13.0.0"
+  }
+}

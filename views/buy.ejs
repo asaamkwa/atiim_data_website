@@ -1,0 +1,80 @@
+<%- include('partials/header') %>
+
+<!-- Form -->
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-12 col-sm-10 col-md-8 col-lg-5">
+
+        <div class="card shadow-lg">
+          <div class="card-body p-4 p-md-5">
+
+            <h4 class="card-title mb-4 text-center fw-bold text-primary">
+              MTN Data Bundle
+            </h4>
+
+            <!-- Beneficiary Number -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Beneficiary Number</label>
+              <input type="tel"
+                     id="phoneNumber"
+                     class="form-control form-control-lg"
+                     placeholder="0550000000"
+                     required>
+              <small id="phoneError" class="text-danger d-none">
+                Enter a valid Ghana phone number
+              </small>
+            </div>
+
+            <!-- Bundle Size -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Select Bundle Size</label>
+              <select class="form-select form-select-lg" id="bundleSelect" required>
+                <option value="" disabled selected>Select bundle size</option>
+                <option value="4.5">1 GB — GHS 4.50</option>
+                <option value="8.8">2 GB — GHS 8.80</option>
+                <option value="12.5">3 GB — GHS 12.50</option>
+                <option value="16.5">4 GB — GHS 16.50</option>
+                <option value="21">5 GB — GHS 21.00</option>
+                <option value="25">6 GB — GHS 25.00</option>
+                <option value="33.5">8 GB — GHS 33.50</option>
+                <option value="41">10 GB — GHS 41.00</option>
+                <option value="48.8">12 GB — GHS 48.80</option>
+                <option value="59.5">15 GB — GHS 59.50</option>
+                <option value="79.5">20 GB — GHS 79.50</option>
+                <option value="99">25 GB — GHS 99.00</option>
+                <option value="118">30 GB — GHS 118.00</option>
+                <option value="158">40 GB — GHS 158.00</option>
+                <option value="191">50 GB — GHS 191.00</option>
+                <option value="384">100 GB — GHS 384.00</option>
+              </select>
+            </div>
+
+            <!-- Bundle Price -->
+            <div class="mb-3 text-center bundle-price">
+              Bundle Price Selected: <span id="bundlePriceDisplay">GHS 0.00</span>
+            </div>
+
+            <!-- Charges Notice -->
+            <div class="alert alert-light alert-custom small mb-3">
+              Includes all applicable charges
+            </div>
+
+            <!-- Warning -->
+            <div class="alert alert-warning small">
+              ⚠️ There will be no refund for a wrong beneficiary number.
+            </div>
+
+            <!-- Pay Button -->
+            <button type="submit" class="btn btn-primary btn-lg w-100">
+              Pay with Wallet
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!-- Form End -->
+
+<%- include('partials/footer') %>
