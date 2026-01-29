@@ -1,0 +1,129 @@
+<%- include('../partials/userheader') %>
+
+<div class="container-fluid">
+  <div class="row min-vh-100">
+
+    <!-- Sidebar -->
+
+
+    <!-- Main Content -->
+    <main class="col-md-9 col-lg-10 px-4 py-4">
+
+      <!-- Profile Header -->
+      <div class="card mb-4 shadow-sm" style="background:#FFCC00;">
+        <div class="card-body d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+          <!-- Avatar + Info -->
+          <div class="d-flex align-items-center gap-3">
+            <img src="/images/avatar.png" alt="Avatar" class="rounded-circle" width="90">
+            <div>
+              <h4 class="fw-bold mb-1 text-dark"><%= user.name %></h4>
+              <p class="text-dark mb-0"><i class="bi bi-envelope me-2"></i> <%= user.email %></p>
+              <p class="text-dark mb-0"><i class="bi bi-telephone me-2"></i> <%= user.phone %></p>
+              <span class="badge bg-dark text-uppercase mt-2"><%= user.role %></span>
+            </div>
+          </div>
+
+          <!-- Actions -->
+          <div class="d-flex gap-2">
+            <a href="#" class="btn btn-outline-primary btn-sm">
+              <i class="bi bi-pencil"></i> Edit
+            </a>
+           
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Cards Row -->
+      <div class="row g-4 mb-4">
+
+        <!-- Account Info -->
+        <div class="col-lg-6">
+          <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold">Account Information</div>
+            <div class="card-body">
+              <p><strong>Full Name:</strong> <%= user.name %></p>
+              <p><strong>Email:</strong> <%= user.email %></p>
+              <p><strong>Phone:</strong> <%= user.phone %></p>
+              <p><strong>Role:</strong> <span class="text-uppercase"><%= user.role %></span></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Change Password -->
+        <div class="col-lg-6">
+          <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold">Change Password</div>
+            <div class="card-body">
+              <form action="#" method="POST">
+                <div class="mb-3">
+                  <label class="form-label">Current Password</label>
+                  <input type="password" name="currentPassword" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">New Password</label>
+                  <input type="password" name="newPassword" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Confirm New Password</label>
+                  <input type="password" name="confirmPassword" class="form-control" required>
+                </div>
+                <button class="btn btn-primary w-100">Update Password</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Recent Activity / Purchases -->
+      <div class="card shadow-sm">
+        <div class="card-header bg-light fw-bold">Recent Purchases</div>
+        <div class="card-body p-0">
+          <div class="table-responsive">
+            <table class="table mb-0 table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Network</th>
+                  <th>Bundle</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody>
+                <% if (user.purchases && user.purchases.length > 0) { %>
+                  <% user.purchases.forEach((purchase, index) => { %>
+                    <tr>
+                      <td><%= index + 1 %></td>
+                      <td><%= purchase.network %></td>
+                      <td><%= purchase.bundle %></td>
+                      <td>₵<%= purchase.amount %></td>
+                      <td>
+                        <% if (purchase.status === 'success') { %>
+                          <span class="badge bg-success">Success</span>
+                        <% } else { %>
+                          <span class="badge bg-warning text-dark">Pending</span>
+                        <% } %>
+                      </td>
+                      <td><%= new Date(purchase.date).toLocaleString() %></td>
+                    </tr>
+                  <% }) %>
+                <% } else { %>
+                  <tr>
+                    <td colspan="6" class="text-center text-muted">No purchases yet</td>
+                  </tr>
+                <% } %>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

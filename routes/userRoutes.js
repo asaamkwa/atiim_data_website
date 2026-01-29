@@ -1,5 +1,10 @@
 import express from 'express';
 import User from '../models/User.js';
+import { 
+  buyDataPage,
+   logoutUser, 
+   registeredUsersDataForm,
+  userProfilePage } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -19,5 +24,16 @@ router.get('/dashboard', isAuthenticated, isUser, async (req, res) => {
   const user = await User.findById(req.session.userId);
   res.render('users/dashboard', { user });
 });
+
+
+// Buy data page
+router.get('/buy-data', isAuthenticated, isUser, buyDataPage);
+router.get('/dataform', isAuthenticated, isUser, registeredUsersDataForm);
+router.get('/profile', isAuthenticated, isUser, userProfilePage);
+
+
+//logout
+router.get('/logout', isAuthenticated, logoutUser);
+
 
 export default router;
