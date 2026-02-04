@@ -1,7 +1,9 @@
 <%- include('../partials/userheader') %>
 
-<!-- Form -->
- <form method="post" action="/manuel/payment/mtn">
+
+
+
+<form method="post" action="/user/manuel/payment">
   <div class="container py-5">
     <div class="row justify-content-center">
       <div class="col-12 col-sm-10 col-md-8 col-lg-5">
@@ -10,44 +12,35 @@
           <div class="card-body p-4 p-md-5">
 
             <h4 class="card-title mb-4 text-center fw-bold text-primary">
-              MTN Data Bundle
+              Buy Data Bundle
             </h4>
+
+            <!-- Network Select -->
+            <div class="mb-3">
+              <label class="form-label fw-semibold">Select Network</label>
+              <select class="form-select form-select-lg" id="networkSelect" name="network" required>
+                <option value="" disabled selected>Select network</option>
+                <option value="MTN">MTN</option>
+                <option value="AIRTELTIGO">AirtelTigo</option>
+                <option value="TELECEL">Telecel</option>
+              </select>
+            </div>
 
             <!-- Beneficiary Number -->
             <div class="mb-3">
               <label class="form-label fw-semibold">Beneficiary Number</label>
               <input type="tel"
-                     id="phoneNumber"
-                      name="payerNumber"
+                     name="payerNumber"
                      class="form-control form-control-lg"
                      placeholder="0550000000"
                      required>
-              <small id="phoneError" class="text-danger d-none">
-                Enter a valid Ghana phone number
-              </small>
             </div>
 
             <!-- Bundle Size -->
             <div class="mb-3">
-              <label class="form-label fw-semibold">Select Bundle Size MTN</label>
-              <select class="form-select form-select-lg" id="bundleSelect" name="amount" required>
+              <label class="form-label fw-semibold">Select Bundle Size</label>
+              <select class="form-select form-select-lg" id="bundleSelect" name="bundleId" required>
                 <option value="" disabled selected>Select bundle size</option>
-                <option value="4.5">1 GB — GHS 4.50</option>
-                <option value="8.8">2 GB — GHS 8.80</option>
-                <option value="12.5">3 GB — GHS 12.50</option>
-                <option value="16.5">4 GB — GHS 16.50</option>
-                <option value="21">5 GB — GHS 21.00</option>
-                <option value="25">6 GB — GHS 25.00</option>
-                <option value="33.5">8 GB — GHS 33.50</option>
-                <option value="41">10 GB — GHS 41.00</option>
-                <option value="48.8">12 GB — GHS 48.80</option>
-                <option value="59.5">15 GB — GHS 59.50</option>
-                <option value="79.5">20 GB — GHS 79.50</option>
-                <option value="99">25 GB — GHS 99.00</option>
-                <option value="118">30 GB — GHS 118.00</option>
-                <option value="158">40 GB — GHS 158.00</option>
-                <option value="191">50 GB — GHS 191.00</option>
-                <option value="384">100 GB — GHS 384.00</option>
               </select>
             </div>
 
@@ -77,7 +70,46 @@
       </div>
     </div>
   </div>
-  </form>
-  <!-- Form End -->
+</form>
+
+<script>
+const networkSelect = document.getElementById('networkSelect');
+const bundleSelect = document.getElementById('bundleSelect');
+const priceDisplay = document.getElementById('bundlePriceDisplay');
+
+networkSelect.addEventListener('change', async () => {
+  const network = networkSelect.value;
+
+  // Clear previous options
+  bundleSelect.innerHTML = '<option value="" disabled selected>Loading...</option>';
+  priceDisplay.textContent = 'GHS 0.00';
+
+  try {
+    const res = await fetch(`/user/bundles/${network}`);
+    const bundles = await res.json();
+
+    // Populate dropdown
+    bundleSelect.innerHTML = '<option value="" disabled selected>Select bundle size</option>';
+    bundles.forEach(bundle => {
+      const option = document.createElement('option');
+      option.value = bundle._id; // Send bundle ID in form
+      option.dataset.price = bundle.price; // Store price for display
+      option.textContent = `${bundle.name} — GHS ${bundle.price.toFixed(2)}`;
+      bundleSelect.appendChild(option);
+    });
+  } catch (err) {
+    console.error(err);
+    bundleSelect.innerHTML = '<option value="" disabled selected>Error loading bundles</option>';
+  }
+});
+
+// Update price display when a bundle is selected
+bundleSelect.addEventListener('change', () => {
+  const selectedOption = bundleSelect.selectedOptions[0];
+  const price = selectedOption.dataset.price || 0;
+  priceDisplay.textContent = `GHS ${parseFloat(price).toFixed(2)}`;
+});
+</script>
+
 
 <%- include('../partials/footer') %>

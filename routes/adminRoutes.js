@@ -1,8 +1,10 @@
 import express from 'express';
 import User from '../models/User.js';
 import DataBundle from '../models/DataBundle.js';
+import BundleRequest from '../models/BundleRequest.js';
 
 import {
+  dashboardPage,
   logoutUser,
   addDataForm,
   createDataBundle,
@@ -10,7 +12,8 @@ import {
   editBundleForm,
   updateBundle,
   deleteBundle,
-  toggleBundleStatus
+  toggleBundleStatus,
+  viewAllBundleRequests
 
  } from '../controllers/adminController.js';
 
@@ -29,13 +32,7 @@ function isAdmin(req, res, next) {
 }
 
 // Admin dashboard
-router.get('/dashboard', isAuthenticated, isAdmin, async (req, res) => {
-  const users = await User.find();
-    // Count distinct networks
-    const networks = await DataBundle.distinct('network');
-    const totalNetworks = networks.length;
-  res.render('admin/dashboard', { users, totalNetworks });
-});
+router.get('/dashboard', isAuthenticated, isAdmin, dashboardPage);
 
 router.get('/add/data', isAuthenticated, isAdmin, addDataForm);
 router.post('/data/new', isAuthenticated, isAdmin, createDataBundle);
@@ -48,10 +45,12 @@ router.post('/bundles/edit/:id', isAuthenticated, isAdmin, updateBundle);
 router.post('/bundles/delete/:id', isAuthenticated, isAdmin, deleteBundle);
 router.post('/bundles/toggle/:id', isAuthenticated, isAdmin, toggleBundleStatus);
 
-
+router.get('/bundle-requests', isAuthenticated, isAdmin, viewAllBundleRequests);
 
 
 //logout
 router.get('/logout', isAuthenticated, logoutUser);
 
 export default router;
+
+

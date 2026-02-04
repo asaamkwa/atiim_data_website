@@ -4,7 +4,10 @@ import {
   buyDataPage,
    logoutUser, 
    registeredUsersDataForm,
-  userProfilePage } from '../controllers/userController.js';
+  userProfilePage,
+  getBundlesByNetwork,
+  submitBundleRequest
+ } from '../controllers/userController.js';
 
 const router = express.Router();
 
@@ -25,11 +28,19 @@ router.get('/dashboard', isAuthenticated, isUser, async (req, res) => {
   res.render('users/dashboard', { user });
 });
 
+// Dynamic API route
+router.get('/bundles/:network', getBundlesByNetwork);
+
+// Submit form
+router.post('/manuel/payment', submitBundleRequest);
 
 // Buy data page
 router.get('/buy-data', isAuthenticated, isUser, buyDataPage);
-router.get('/dataform/mtn', isAuthenticated, isUser, registeredUsersDataForm);
+router.get('/dataform', isAuthenticated, isUser, registeredUsersDataForm);
 router.get('/profile', isAuthenticated, isUser, userProfilePage);
+
+
+
 
 
 //logout

@@ -79,16 +79,22 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="card shadow-sm border-0">
-            <div class="card-body d-flex align-items-center justify-content-between">
-              <div>
-                <h6 class="text-muted mb-1">Total Bundle Purchase</h6>
-                <h3 class="fw-bold">GHC 300.00</h3>
-              </div>
-              <i class="bi bi-person-badge fs-2 text-success"></i>
-            </div>
-          </div>
-        </div>
+  <a href="/admin/bundle-requests" class="text-decoration-none">
+  <div class="card shadow-sm border-0">
+    <div class="card-body d-flex align-items-center justify-content-between">
+      <div>
+        <h6 class="text-muted mb-1">Total Bundle Purchase</h6>
+        <h3 class="fw-bold text-dark">
+          GHC <%= totalByNetwork.overall.toFixed(2) %>
+        </h3>
+      </div>
+      <i class="bi bi-person-badge fs-2 text-success"></i>
+    </div>
+  </div>
+</a>
+
+</div>
+
         <div class="col-md-3">
           <div class="card shadow-sm border-0">
             <div class="card-body d-flex align-items-center justify-content-between">

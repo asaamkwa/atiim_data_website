@@ -1,5 +1,55 @@
 import User from '../models/User.js';
 import DataBundle from '../models/DataBundle.js';
+import BundleRequest from '../models/BundleRequest.js';
+
+
+//dashboard page
+export const dashboardPage = async (req, res) => {
+  try {
+    const users = await User.find();
+
+    // Count distinct networks
+    const networks = await DataBundle.distinct('network');
+    const totalNetworks = networks.length;
+
+    // Aggregate total purchases per network
+    const totals = await BundleRequest.aggregate([
+      {
+        $group: {
+          _id: "$network",
+          total: { $sum: "$price" }
+        }
+      }
+    ]);
+
+    // Prepare totals for easy access
+    const totalByNetwork = {
+      MTN: 0,
+      AIRTELTIGO: 0,
+      TELECEL: 0,
+      overall: 0
+    };
+
+    totals.forEach(t => {
+      totalByNetwork[t._id] = t.total;
+      totalByNetwork.overall += t.total;
+    });
+
+    res.render('admin/dashboard', {
+      users,
+      totalNetworks,
+      totalByNetwork
+    });
+
+  } catch (error) {
+    console.error('Dashboard error:', error);
+    res.render('admin/dashboard', {
+      users: [],
+      totalNetworks: 0,
+      totalByNetwork: { MTN: 0, AIRTELTIGO: 0, TELECEL: 0, overall: 0 }
+    });
+  }
+};
 
 
 // controllers/userController.js
@@ -103,4 +153,39 @@ export const toggleBundleStatus = async (req, res) => {
   req.flash('success', 'Bundle status updated');
   res.redirect('/admin/bundles');
 };
+
+//view all bundles requested
+export const viewAllBundleRequests = async (req, res) => {
+  try {
+    // Fetch all bundle requests with bundle info
+    const requests = await BundleRequest.find()
+      .populate('bundle')
+      .sort({ network: 1, createdAt: -1 }); // Sort by network, newest first
+
+    // Calculate totals per network
+    const totalsByNetwork = {};
+    let overallTotal = 0;
+
+    requests.forEach(r => {
+      if (!totalsByNetwork[r.network]) totalsByNetwork[r.network] = 0;
+      totalsByNetwork[r.network] += r.price;
+      overallTotal += r.price;
+    });
+
+    res.render('admin/bundleRequests', {
+      requests,
+      totalsByNetwork,
+      overallTotal
+    });
+
+  } catch (error) {
+    console.error('Error fetching bundle requests:', error);
+    res.render('admin/bundleRequests', {
+      requests: [],
+      totalsByNetwork: {},
+      overallTotal: 0
+    });
+  }
+};
+
 
