@@ -1,8 +1,17 @@
 import express from 'express';
 import User from '../models/User.js';
+import DataBundle from '../models/DataBundle.js';
 
 import {
-  logoutUser 
+  logoutUser,
+  addDataForm,
+  createDataBundle,
+  listBundles,
+  editBundleForm,
+  updateBundle,
+  deleteBundle,
+  toggleBundleStatus
+
  } from '../controllers/adminController.js';
 
 
@@ -22,8 +31,24 @@ function isAdmin(req, res, next) {
 // Admin dashboard
 router.get('/dashboard', isAuthenticated, isAdmin, async (req, res) => {
   const users = await User.find();
-  res.render('admin/dashboard', { users });
+    // Count distinct networks
+    const networks = await DataBundle.distinct('network');
+    const totalNetworks = networks.length;
+  res.render('admin/dashboard', { users, totalNetworks });
 });
+
+router.get('/add/data', isAuthenticated, isAdmin, addDataForm);
+router.post('/data/new', isAuthenticated, isAdmin, createDataBundle);
+
+router.get('/bundles', isAuthenticated, isAdmin, listBundles);
+
+router.get('/bundles/edit/:id', isAuthenticated, isAdmin, editBundleForm);
+router.post('/bundles/edit/:id', isAuthenticated, isAdmin, updateBundle);
+
+router.post('/bundles/delete/:id', isAuthenticated, isAdmin, deleteBundle);
+router.post('/bundles/toggle/:id', isAuthenticated, isAdmin, toggleBundleStatus);
+
+
 
 
 //logout

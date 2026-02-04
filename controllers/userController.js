@@ -20,7 +20,7 @@ export const logoutUser = (req, res) => {
 
 //form for submiting data by registered users
 export const registeredUsersDataForm = (req, res) => {
-  res.render('users/userbuy');
+  res.render('users/userBuyMTN');
 };
 
 

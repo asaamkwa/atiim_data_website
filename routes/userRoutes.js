@@ -28,7 +28,7 @@ router.get('/dashboard', isAuthenticated, isUser, async (req, res) => {
 
 // Buy data page
 router.get('/buy-data', isAuthenticated, isUser, buyDataPage);
-router.get('/dataform', isAuthenticated, isUser, registeredUsersDataForm);
+router.get('/dataform/mtn', isAuthenticated, isUser, registeredUsersDataForm);
 router.get('/profile', isAuthenticated, isUser, userProfilePage);
 
 

@@ -1,10 +1,13 @@
 import dotenv from 'dotenv';
+dotenv.config();
+
+//console.log(".env file loaded?", process.env.MOMO_SUBSCRIPTION_KEY ? "YES" : "NO");
+
 import express from 'express';
 import connectDB from './config/db.js';
 import session from 'express-session';
 import MongoStore from 'connect-mongo';
-
-dotenv.config();
+import flash from 'connect-flash';
 
 const app = express();
 connectDB();
@@ -29,6 +32,14 @@ app.use(session({
   }
 }));
 
+app.use(flash());
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
+  next();
+});
+
+
 app.set('view engine', 'ejs');
 
 // Routes
@@ -36,11 +47,13 @@ import indexRoutes from './routes/index.js';
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/userRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import momoRoutes from "./routes/momoRoutes.js";
 
 app.use('/', indexRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/admin', adminRoutes);
+app.use("/momo", momoRoutes);
 
 // Start server
 app.listen(process.env.PORT || 3000, () => {

@@ -1,0 +1,110 @@
+<%- include('../partials/adminheader') %>
+
+<div class="container-fluid">
+  <div class="row min-vh-100">
+
+    <!-- Sidebar -->
+   
+    <!-- Sidebar for desktop -->
+    <nav class="col-md-3 col-lg-2 d-none d-md-block bg-light sidebar border-end">
+      <div class="pt-4 px-3 text-center">
+
+        <!-- Brand -->
+        <i class="bi bi-speedometer2 fs-1 text-primary"></i>
+        <h6 class="fw-bold mt-2">Admin Dashboard</h6>
+
+        <!-- Menu -->
+        <ul class="nav nav-pills flex-column gap-1 mt-4">
+          <li class="nav-item">
+            <a href="/admin/dashboard" class="nav-link active">
+              <i class="bi bi-house me-2"></i> Dashboard
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link text-dark">
+              <i class="bi bi-person me-2"></i> Profile
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/bundles" class="nav-link text-dark">
+              <i class="bi bi-wifi me-2"></i>Bundles
+            </a>
+          </li>
+          <li class="nav-item mt-3">
+            <a href="/admin/logout" class="nav-link text-danger">
+              <i class="bi bi-box-arrow-right me-2"></i> Logout
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+
+    <!-- Offcanvas Sidebar for mobile -->
+    <div class="d-md-none">
+      <button class="btn btn-primary m-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileSidebar">
+        <i class="bi bi-list"></i> Menu
+      </button>
+
+      <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileSidebar">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title">Admin Dashboard</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"></button>
+        </div>
+        <div class="offcanvas-body">
+          <ul class="nav nav-pills flex-column gap-2">
+            <li class="nav-item"><a href="/admin/dashboard" class="nav-link active">Dashboard</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Profile</a></li>
+            <li class="nav-item"><a href="/admin/bundles" class="nav-link">Bundles</a></li>
+            <li class="nav-item"><a href="/admin/logout" class="nav-link text-danger">Logout</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="col-md-9 col-lg-10 px-4 py-4">
+        <% if (success && success.length > 0) { %>
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+      <%= success[0] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+
+  <% if (error && error.length > 0) { %>
+    <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+      <%= error[0] %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% } %>
+
+  <form action="/admin/data/new" method="POST">
+  <div class="mb-3">
+    <label>Network</label>
+    <select name="network" class="form-select" required>
+      <option value="">Select network</option>
+      <option value="MTN">MTN</option>
+      <option value="AIRTELTIGO">AirtelTigo</option>
+      <option value="TELECEL">Telecel</option>
+    </select>
+  </div>
+
+  <div class="mb-3">
+    <label>Bundle Name</label>
+    <input type="text" name="name" class="form-control" placeholder="5GB" required>
+  </div>
+
+  <div class="mb-3">
+    <label>Price (GHS)</label>
+    <input type="number" name="price" class="form-control" required>
+  </div>
+
+  <button class="btn btn-primary w-100">Add Bundle</button>
+</form>
+
+
+    </main>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

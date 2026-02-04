@@ -1,0 +1,32 @@
+<%- include('../partials/adminheader') %>
+
+<div class="container py-4">
+  <h4>Edit Bundle</h4>
+
+  <form action="/admin/bundles/edit/<%= bundle._id %>" method="POST">
+    <div class="mb-3">
+      <label>Network</label>
+      <select name="network" class="form-select">
+        <option selected><%= bundle.network %></option>
+        <option value="MTN">MTN</option>
+        <option value="AIRTELTIGO">AirtelTigo</option>
+        <option value="TELECEL">Telecel</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Bundle</label>
+      <input type="text" name="name" value="<%= bundle.name %>" class="form-control">
+    </div>
+
+    <div class="mb-3">
+      <label>Price</label>
+      <input type="number" name="price" value="<%= bundle.price %>" class="form-control">
+    </div>
+
+    <button class="btn btn-primary">Update</button>
+    <a href="/admin/bundles" class="btn btn-secondary">Cancel</a>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>
