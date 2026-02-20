@@ -15,6 +15,13 @@ export const loginUser = async (req, res) => {
       return res.render('login', { error: 'User not found' });
     }
 
+    // CHECK APPROVAL FIRST
+    if (!user.isApproved) {
+      return res.render('login', {
+        error: 'Account not approved yet. Contact admin on 0541255719'
+      });
+    }
+
     const isMatch = await user.matchPassword(password);
     if (!isMatch) {
       return res.render('login', { error: 'Incorrect password' });
@@ -54,11 +61,13 @@ export const registerUser = async (req, res) => {
       phone,
       email,
       password,
-      role: 'user' // force normal user
+      role: 'user', // force normal user
+      isApproved: false // waiting for admin approval
+
     });
 
     await user.save();
-    res.redirect('/auth/login');
+    res.render('login', { error: 'Registration successful. Wait for admin approval.'});
   } catch (err) {
     console.error(err);
     res.render('register', { error: err.message });

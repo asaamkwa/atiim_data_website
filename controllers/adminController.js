@@ -188,4 +188,18 @@ export const viewAllBundleRequests = async (req, res) => {
   }
 };
 
+// pendingUsers
+export const pendingUsers = async (req, res) => {
+  const users = await User.find({ isApproved: false });
+  res.render('admin/pending-users', { users });
+};
+
+export const approveUser = async (req, res) => {
+  await User.findByIdAndUpdate(req.params.id, {
+    isApproved: true
+  });
+
+  res.redirect('/admin/pending-users');
+};
+
 

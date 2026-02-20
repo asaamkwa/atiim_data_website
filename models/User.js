@@ -24,6 +24,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user'
+  },
+  isApproved: {
+    type: Boolean,
+    default: false // admin must approve first
   }
 }, { timestamps: true });
 

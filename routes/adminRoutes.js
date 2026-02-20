@@ -13,7 +13,9 @@ import {
   updateBundle,
   deleteBundle,
   toggleBundleStatus,
-  viewAllBundleRequests
+  viewAllBundleRequests,
+  pendingUsers,
+  approveUser
 
  } from '../controllers/adminController.js';
 
@@ -46,6 +48,12 @@ router.post('/bundles/delete/:id', isAuthenticated, isAdmin, deleteBundle);
 router.post('/bundles/toggle/:id', isAuthenticated, isAdmin, toggleBundleStatus);
 
 router.get('/bundle-requests', isAuthenticated, isAdmin, viewAllBundleRequests);
+
+
+
+// user approveUser
+router.get('/pending-users', isAdmin, pendingUsers);
+router.post('/approve/:id', isAdmin, approveUser);
 
 
 //logout
