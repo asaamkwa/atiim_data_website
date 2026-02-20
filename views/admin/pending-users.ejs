@@ -89,6 +89,7 @@
             <tr>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -98,6 +99,7 @@
               <tr>
                 <td class="fw-semibold"><%= user.name %></td>
                 <td><%= user.email %></td>
+                <td><%= user.phone %></td>
                 <td>
                   <form action="/admin/approve/<%= user._id %>" method="POST">
                     <button class="btn btn-success btn-sm">
